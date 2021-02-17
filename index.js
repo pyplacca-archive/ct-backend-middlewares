@@ -7,9 +7,9 @@ const banks = [];
 
 // our model
 class Bank {
-	constructor({name, location, branch}) {
+	constructor({name, address, branch}) {
 		this.name = name;
-		this.location = location;
+		this.address = address;
 		this.branch = branch
 	}
 
