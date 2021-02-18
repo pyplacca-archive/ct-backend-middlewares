@@ -49,7 +49,9 @@ function createBankEntry (req, res) {
 function deleteBankEntry (req, res) {
 	const {id} = req.body;
 	Bank.delete(id);
-	res.status(204)
+	res.status(204).json({
+		message: 'Bank deleted successfully'
+	})
 }
 
 function updateBankEntry (req, res) {
