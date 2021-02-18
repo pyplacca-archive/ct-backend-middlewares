@@ -11,7 +11,7 @@ class Bank {
 		this.name = name;
 		this.address = address;
 		this.branch = branch;
-		// assign an id every new bank entry we can use to later update it
+		// assign an id to every new bank entry we can use to later update or delete it
 		this.id = +new Date();
 	}
 
