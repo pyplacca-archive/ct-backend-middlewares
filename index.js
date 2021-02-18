@@ -3,23 +3,35 @@ const bodyParser = require('body-parser');
 
 
 // our makeshift database
-const banks = [];
+const banks = {};
 
 // our model
 class Bank {
 	constructor({name, address, branch}) {
 		this.name = name;
 		this.address = address;
-		this.branch = branch
+		this.branch = branch;
+		// assign an id every new bank entry we can use to later update it
+		this.id = +new Date();
 	}
 
-	addEntry = () => {
-		banks.push(this)
-		return this
+	add = () => {
+		banks[this.id] = this;
+		return this;
+	}
+
+	static delete = id => {
+		delete banks[id];
+	}
+
+	static modify = (id, data) => {
+		const modified = Object.assign(banks[id], data);
+		banks[id] = modified;
+		return modified;
 	}
 
 	static get entries () {
-		return banks
+		return Object.values(banks)
 	}
 }
 
@@ -27,8 +39,26 @@ class Bank {
 	Request handlers
 */
 function createBankEntry (req, res) {
-	const entry = new Bank(req.body).addEntry();
-	res.status(201).json(entry);
+	const entry = new Bank(req.body).add();
+	res.status(201).json({
+		message: 'Bank added successfully',
+		data: entry
+	});
+}
+
+function deleteBankEntry (req, res) {
+	const {id} = req.body;
+	Bank.delete(id);
+	res.status(204)
+}
+
+function updateBankEntry (req, res) {
+	const {id, data} = req.body;
+	const updated = Bank.modify(id, data);
+	res.json({
+		message: `Bank '${id}' updated successfully.`,
+		data: updated
+	})
 }
 
 function getBankEntries (req, res) {
@@ -42,6 +72,8 @@ server.use(bodyParser.json());
 // our request listeners
 server.get('/banks', getBankEntries);
 server.post('/banks/add', createBankEntry)
+server.delete('/banks/delete', deleteBankEntry)
+server.patch('/banks/update', updateBankEntry)
 
 // start server
 server.listen(2021, () => {
