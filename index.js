@@ -1,6 +1,7 @@
-const server = require('express')();
-const bodyParser = require('body-parser');
+const express = require('express');
 
+
+const server = express();
 
 // our makeshift database
 const banks = {};
@@ -69,7 +70,7 @@ function getBankEntries (req, res) {
 
 
 // apply middleware(s)
-server.use(bodyParser.json());
+server.use(express.json());
 
 // our request listeners
 server.get('/banks', getBankEntries);
