@@ -1,7 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bankRouter = require('./routes/bankRoutes');
+
 const server = express();
+const { env } = process; // access our storage keys;
 
 
 // apply all other middleware(s)
@@ -11,7 +14,7 @@ server.use('/banks', bankRouter)
 
 // connect our application to the database (mongodb)
 mongoose.connect(
-	`mongodb+srv://codetrain:Cz8fHaVZFqlXMcRY@cluster0.ombtf.mongodb.net/codetrain?retryWrites=true&w=majority`,
+	`mongodb+srv://${env.DB_USER}:${env.DB_PASS}@cluster0.ombtf.mongodb.net/${env.DB_NAME}?retryWrites=true&w=majority`,
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
