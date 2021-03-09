@@ -1,17 +1,19 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-// define our database schema
-const { Schema } = mongoose;
 
+// define the schema for our account model
 const accountSchema = new Schema({
 	accountName: String,
 	accountNumber: String,
 	accountNumber: Number,
 	accountType: String,
-	bank: {type: Schema.Types.ObjectId, ref: 'bank'},
+	bank: {
+		type: Schema.Types.ObjectId,
+		ref: 'bank'
+	},
 });
 
-// initialize our database model with our defined schema
-const Account = mongoose.model('account', accountSchema)
+// initialize our account model with our defined schema
+const Account = model('account', accountSchema)
 
 module.exports = Account;
