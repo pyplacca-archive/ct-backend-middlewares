@@ -1,5 +1,6 @@
 // import api models
 const Bank = require('../models/bankModel');
+const Account = require('../models/accountModel');
 
 
 function createBankEntry (req, res) {
@@ -15,11 +16,18 @@ function createBankEntry (req, res) {
 
 function deleteBankEntry ({body: {id}}, res) {
 	Bank.findByIdAndDelete(id, (_, query) => {
-		const [code, message] = query ? [
-			204, 'Bank deleted successfully'
-		] : [
-			500, 'Failed to delete bank'
-		]
+		let [code, message] = [204, 'Bank deleted successfully'];
+
+		if (query) {
+			Account.deleteMany({ bank: { _id: id } })
+			.then(() => {})
+			.catch(err => console.log({
+				'Account delete many error': err
+			}))
+		} else {
+			[code, message] = [500, 'Failed to delete bank'];
+		}
+
 		res.status(code).json({ message, data: query || id })
 	});
 }
