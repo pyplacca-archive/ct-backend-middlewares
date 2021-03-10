@@ -393,6 +393,14 @@ etag@~1.8.1:
   resolved "https://registry.npm.taobao.org/etag/download/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+express-validator@^6.10.0:
+  version "6.10.0"
+  resolved "https://registry.npm.taobao.org/express-validator/download/express-validator-6.10.0.tgz#66f70f73d04fb55c227401c75fe3713879c9cb70"
+  integrity sha1-ZvcPc9BPtVwidAHHX+NxOHnJy3A=
+  dependencies:
+    lodash "^4.17.20"
+    validator "^13.5.2"
+
 express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.npm.taobao.org/express/download/express-4.17.1.tgz?cache=0&sync_timestamp=1598867231599&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fexpress%2Fdownload%2Fexpress-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
@@ -705,6 +713,11 @@ latest-version@^5.0.0:
   integrity sha1-EZ3+kI/jjRXfpD7NE/oS7Igy+s4=
   dependencies:
     package-json "^6.3.0"
+
+lodash@^4.17.20:
+  version "4.17.21"
+  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
 
 lowercase-keys@^1.0.0, lowercase-keys@^1.0.1:
   version "1.0.1"
@@ -1319,6 +1332,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/utils-merge/download/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+validator@^13.5.2:
+  version "13.5.2"
+  resolved "https://registry.npm.taobao.org/validator/download/validator-13.5.2.tgz#c97ae63ed4224999fb6f42c91eaca9567fe69a46"
+  integrity sha1-yXrmPtQiSZn7b0LJHqypVn/mmkY=
 
 vary@~1.1.2:
   version "1.1.2"
