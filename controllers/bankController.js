@@ -1,20 +1,31 @@
+const { validationResult } = require('express-validator');
 // import api models
 const Bank = require('../models/bankModel');
 const Account = require('../models/accountModel');
 
 
 function createBankEntry (req, res) {
-	new Bank(req.body).save()
-	.then(data => {
-		res.status(201).json({
-			message: 'Bank added successfully',
-			data
-		});
-	})
-	.catch(err => res.status(500).json({message: err}))
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		res.status(400).json(errors)
+	} else {
+		new Bank(req.body).save()
+		.then(data => {
+			res.status(201).json({
+				message: 'Bank added successfully',
+				data
+			});
+		})
+		.catch(err => res.status(500).json({message: err}))
+	}
 }
 
-function deleteBankEntry ({body: {id}}, res) {
+function deleteBankEntry (req, res) {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).json(errors);
+	}
+	const {body: {id}} = req;
 	Bank.findByIdAndDelete(id, (_, query) => {
 		let [code, message] = [204, 'Bank deleted successfully'];
 
@@ -25,26 +36,31 @@ function deleteBankEntry ({body: {id}}, res) {
 				'Account delete many error': err
 			}))
 		} else {
-			[code, message] = [500, 'Failed to delete bank'];
+			[code, message] = [500, 'Failed to delete. Bank with specified not found.'];
 		}
 
 		res.status(code).json({ message, data: query || id })
 	});
 }
 
-function updateBankEntry ({body: {id, data}}, res) {
-	Bank.findByIdAndUpdate(id, data, (mgRes, mgErr) => {
-		if (mgRes) {
-			res.json({
-				message: `Bank '${id}' updated successfully.`,
-				data: mgRes
-			})
-		} else {
-			res.status(500).json({
-				message: mgErr
-			})
-		}
-	})
+function updateBankEntry (req, res) {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		res.status(400).json(errors)
+	}
+	else {
+		const {body: {id, data}} = req;
+		Bank.findByIdAndUpdate(id, data, (mgRes, mgErr) => {
+			if (mgRes) {
+				res.json({
+					message: `Bank '${id}' updated successfully.`,
+					data: mgRes
+				})
+			} else {
+				res.status(500).json({ message: mgErr })
+			}
+		})
+	}
 }
 
 function getBankEntries (req, res) {
