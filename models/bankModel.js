@@ -3,7 +3,10 @@ const { Schema, model } = require('mongoose');
 
 // define the schema for our bank model
 const bankSchema = new Schema({
-	name: String,
+	name: {
+		type: String, 
+		required: true
+	},
 	address: String,
 	accountNumber: Number,
 	phoneNumber: String,
