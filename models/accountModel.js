@@ -4,7 +4,6 @@ const { Schema, model } = require('mongoose');
 // define the schema for our account model
 const accountSchema = new Schema({
 	accountName: String,
-	accountNumber: String,
 	accountNumber: Number,
 	accountType: String,
 	bank: {
