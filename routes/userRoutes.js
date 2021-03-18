@@ -9,7 +9,7 @@ function isRequired(field, msg) {
 }
 
 router.post(
-	"/add",
+	"/signup",
 	[
 		isRequired("username", "Username is required")
 			.isLength({ min: 2 })
@@ -19,17 +19,11 @@ router.post(
 			.isEmail()
 			.withMessage("Invalid email address")
 			.bail()
-			.custom((email) => {
-				return new Promise((resolve, reject) => {
-					User.findOne({ email }).then((user) => {
-						if (user) {
-							reject("This email already exists");
-						} else {
-							resolve();
-						}
-					});
-				});
-			}),
+			.custom(email =>
+				User.findOne({ email }).then(
+					user => user && Promise.reject("This email already exists")
+				)
+			),
 		isRequired("password", "Password is required")
 			.trim()
 			.isLength({ min: 6 })

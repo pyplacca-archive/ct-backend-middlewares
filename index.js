@@ -11,7 +11,7 @@ server.use(express.json());
 // "custom" router middleware
 server.use("/banks", routes.bankRouter);
 server.use("/accounts", routes.accountRouter);
-server.use("/users", routes.userRouter);
+server.use("/user", routes.userRouter);
 
 // connect our server to the mongodb database
 mongoose

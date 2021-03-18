@@ -1,36 +1,39 @@
-const router = require('express').Router();
-const { body } = require('express-validator');
+const router = require("express").Router();
+const { body } = require("express-validator");
 
-const bankController = require('../controllers/bankController')
+const bankController = require("../controllers/bankController");
 
-
-function validate (args) {
-    const [field, errMsg] = args;
-    return body(field).not().isEmpty().withMessage(errMsg)
+function validate(args) {
+	const [field, errMsg] = args;
+	return body(field).not().isEmpty().withMessage(errMsg).bail();
 }
 
-// define routes for our bank api
-router.get('', bankController.getBankEntries);
+function idRequired() {
+	return body("id", "An id is required").notEmpty()
+}
+
+// define bank routes
+router.get("", bankController.getBankEntries);
 router.post(
-    '/add', 
-    [
-        ['name', 'Bank name is required'],
-        ['address', 'Bank address not specified'],
-        ['branch', 'Bank\'s branch is not specified'],
-        ['accountNumber', 'Please specify an account number'],
-        ['phoneNumber', 'Please specify a phone number']
-    ].map(validate),
-    bankController.createBankEntry
+	"/add",
+	[
+		["name", "Bank name is required"],
+		["address", "Bank address not specified"],
+		["branch", "Bank's branch is not specified"],
+		["accountNumber", "Please specify an account number"],
+		["phoneNumber", "Please specify a phone number"],
+	].map(validate),
+	bankController.createBankEntry
 );
 router.delete(
-    '/delete', 
-    validate('id', 'An id is required.'),
-    bankController.deleteBankEntry
+	"/delete",
+	idRequired(),
+	bankController.deleteBankEntry
 );
 router.patch(
-    '/update', 
-    validate('id', 'An id is required.'),
-    bankController.updateBankEntry
+	"/update",
+	idRequired(),
+	bankController.updateBankEntry
 );
 
 module.exports = router;
