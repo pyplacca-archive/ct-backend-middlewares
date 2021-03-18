@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
+const bcrypt = require('bcryptjs');
 
-const { createUserEntry } = require("../controllers/userController");
+const usrCtrlr = require("../controllers/userController");
 const User = require("../models/userModel");
 
 function isRequired(field, msg) {
@@ -29,7 +30,16 @@ router.post(
 			.isLength({ min: 6 })
 			.withMessage("Password must be at least 6 characters long"),
 	],
-	createUserEntry
+	usrCtrlr.createUserEntry
 );
+
+router.get(
+	'/login',
+	[
+		isRequired('email', 'Email address is required'),
+		isRequired('password', 'Password is required')
+	],
+	usrCtrlr.getUserEntry
+)
 
 module.exports = router;
